@@ -1,0 +1,545 @@
+html, body {
+    height: 100%;
+    background-color: #edeef0;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap>.container {
+    padding: 60px 15px 20px;
+    width: 1180px;
+    /*background-color: white;
+    border: 1px solid black;*/
+}
+
+@media (max-width: 1200px) {
+    .container {
+        width: 970px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        width: 770px !important;
+    }
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/
+    "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/
+    "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+
+.nav li>form>button.logout {
+    padding: 15px;
+    border: none;
+}
+
+@media(max-width:767px) {
+    .nav li>form>button.logout {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav>li>form>button.logout:focus, .nav>li>form>button.logout:hover {
+    text-decoration: none;
+}
+
+.nav>li>form>button.logout:focus {
+    outline: none;
+}
+
+/*
+Added by me
+*/
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.well blockquote {
+    border-color: #ddd;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.well-lg {
+    padding: 24px;
+    border-radius: 6px;
+}
+
+.well-sm {
+    padding: 9px;
+    border-radius: 3px;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+/*
+    Plylist config
+*/
+
+#playlist {
+    list-style-type: none;
+}
+
+.ostContainer, .playlistAllContainer {
+    margin-top: 10px;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    padding: 10px 10px 10px 10px;
+    grid-gap: 10px;
+    /*background-color: #2196F3;*/
+    /*background-color: #20B2AA;*/
+    background-color: #5d7ada;
+    border-radius: 4px;
+}
+
+.playlistAllContainer{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.playlistAllContainer a{
+    color: rgb(41, 41, 41);
+    font-size: 20px;
+}
+
+.ostContainer .songContainer {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    /*border: 1px solid black;*/
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
+    transition-duration: 0.5s;
+}
+
+.selected {
+    font-weight: bold;
+    color: white;
+    background-color: #2b3492 !important;
+    transition: 0.7s;
+}
+
+.playlistMenuItem {
+    text-align: center;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
+    transition-duration: 0.5s;
+    background-color: #7F7FD5;
+    margin-bottom: 10px;
+}
+
+
+/* Hover rules */
+.ostContainer .songContainer:hover, .selected:hover, .playlistMenuItem:hover, #notesBtn:hover, .playlistLinkContainer:hover, .songMenuItem:hover, .songMenuItemAddToPlaylist:hover {
+    background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
+    color: white;
+    border-radius: 4px;
+}
+
+#stickydiv {
+    background-color: white;
+    height: 60px;
+    position: sticky;
+    top: 60px;
+    padding: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 99999;
+}
+
+.btnWrapper {
+    height: 46px;
+    width: 46px;
+    transition-duration: 0.3s;
+    float: left;
+    margin-left: 10px;
+    margin-top: -4px;
+    border: 3px solid #7FDBFF;
+    border-radius: 4px;
+}
+
+.btnHighlight {
+    border: 3px solid black !important;
+}
+
+#scrubber {
+    float: left;
+    height: 20px;
+    margin-top: 3px;
+    /*margin-left: 10px;*/
+    border-radius: 4px;
+    /*background-color: green;*/
+    background: -webkit-linear-gradient(left, #C9D6FF, rgb(201, 224, 255));
+    width: 720px;
+}
+
+#progressBar {
+    background: -webkit-linear-gradient(left, #2a2c97, #4155c5, #2a2c97);
+    width: 0px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.songInfoContainer {
+    float: left;
+    margin-top: -5px;
+    margin-left: 10px;
+}
+
+.songInfoContainer .titlePlusTime {
+    margin-top: 3px;
+}
+
+#songTitle {
+    float: left;
+    height: 20px;
+    width: 215px;
+    overflow: hidden;
+}
+
+#songTime {
+    float: right;
+}
+
+#playlistMenu {
+    padding: 10px 10px 1px 10px;
+    background: -webkit-linear-gradient(left, #D66D75, #E29587);
+    width: 200px;
+    border-radius: 10px;
+    margin-left: 950px;
+    position: fixed;
+    display: none;
+    z-index: 99998;
+}
+
+#audioSliderContainer {
+    width: 150px;
+    /* Width of the outside container */
+    transform: rotate(90deg);
+    transform-origin: left;
+    position: relative;
+    left: 1183px;
+    top: -45px;
+}
+
+/* The slider itself */
+
+.slider {
+    -webkit-appearance: none;
+    /* Override default CSS styles */
+    width: 100%;
+    /* Full-width */
+    height: 25px;
+    /* Specified height */
+    background: #d3d3d3;
+    /* Grey background */
+    outline: none;
+    /* Remove outline */
+    opacity: 0.7;
+    /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s;
+    /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+
+.slider:hover {
+    opacity: 1;
+    /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    width: 25px;
+    /* Set a specific slider handle width */
+    height: 25px;
+    /* Slider handle height */
+    background: #5d7ada;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+}
+
+.addFavouriteBtn {
+    background: url("resources/player/star.png") no-repeat;
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    height: 40px;
+    width: 40px;
+}
+
+.addFavouriteBtn:hover {
+    background: url("resources/player/starHover.png") no-repeat;
+}
+
+#actionPopUp {
+    display: none;
+    padding: 40px;
+    position: fixed;
+    bottom: 100px;
+    left: 40px;
+    background-color: #79C753;
+    border: 2px solid black;
+}
+
+#notesBtn {
+    background-color:  #86A8E7;
+    border: 2px solid #4e7bce;
+    border-radius: 10px;
+    position: fixed;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    bottom: 79px;
+    transition: 0.4s;
+}
+
+#notesForm {
+    position: fixed;
+    height: 400px;
+    width: 600px;
+    background-color: wheat;
+    bottom: 80px;
+    right: 70px;
+    border: 2px solid #dcb874;
+    border-radius: 10px;
+    padding: 20px;
+    display: none;
+}
+
+#notes-body, #blog-text {
+    height: 215px;
+    resize: none;
+}
+
+.noteContainer {
+    float: left;
+    margin: 10px;
+    width: 200px;
+    height: 250px;
+    overflow: hidden;
+}
+
+@media(max-width:1200px) {
+    #scrubber {
+        width: 510px;
+    }
+    #playlistMenu {
+        margin-left: 740px;
+    }
+    #audioSliderContainer {
+        left: 972px;
+    }
+}
+
+@media(max-width:992px) {
+    #scrubber {
+        width: 310px;
+    }
+    #playlistMenu {
+        margin-left: 540px;
+    }
+    #audioSliderContainer {
+        left: 772px;
+    }
+}
+
+@media(max-width:755px) {
+    #playlistMenu {
+        margin-left: 740px;
+    }
+}
+
+.playlistLinkContainer {
+    float: left;
+    overflow: hidden;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 175px;
+    height: 175px;
+    transition-duration: 0.4s;
+}
+ 
+.playlistLinkContainer p {
+    margin: 0 0 0;
+    width: 100%;
+    overflow-wrap: break-word;
+    text-align: center;
+    font-weight: bold;
+}
+
+.addFavouriteBtn {
+    background: url("resources/player/star.png") no-repeat;
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    height: 40px;
+    width: 40px;
+}
+
+.showSongMenuBtn {
+    background: url("resources/player/showSongMenu.png") no-repeat;
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    height: 40px;
+    width: 40px;
+}
+
+.showSongMenuBtn:hover {
+    background: url("resources/player/showSongMenuHover.png") no-repeat;
+}
+
+.songMenu{
+    width: 200px;
+    background-color: red;
+    padding: 5px;
+    display: none;
+    margin-top: 30px;
+    z-index: 99999;
+    position: relative;
+}
+
+.songMenuItem {
+    text-align: left;
+    color: black;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 2px;
+    overflow-wrap: break-word;
+}
+
+.songMenuItemAddToPlaylistMenu, .songMenuItemRemoveFromPlaylistMenu{
+    display:none;
+    margin-left: 195px;
+    position: absolute;
+    margin-top: -22px;
+}
+
+.playlistHiddenId{
+    display: none;
+}
