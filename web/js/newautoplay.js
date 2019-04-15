@@ -5,7 +5,7 @@ class PlayerInstance {
      */
     this.audio = document.getElementById('audio')
     /**
-     * Играющий трек
+     * Проигрываемый трек
      */
     this.selected = null
     this.audio.preload = true
@@ -73,6 +73,13 @@ class PlayerInstance {
   }
   /**
    * Функция проигрывания следующего трека.
+   *
+   * Если this.randomBool == true, то случайное количество раз перематывает трек
+   * передавая следующий эдемент nextElementSibling в функцию clicked, и выходит.
+   * Если существует this.selected и this.selected.nextElementSibling, вызывает
+   * функцию clicked передавая следующий элемент nextElementSibling.
+   * Если существует this.selected и this.repeatAllBool==true, то вызывает функцию
+   * skipToStart().
    */
   playNext () {
     if (this.randomBool) {
@@ -92,7 +99,7 @@ class PlayerInstance {
     }
 
     if (this.selected && this.repeatAllBool) {
-      skipToStart()
+      this.skipToStart()
     }
   }
 
@@ -125,6 +132,9 @@ class PlayerInstance {
     }
   }
 
+  /**
+   * Функция проигрывания того же трека.
+   */
   playSame () {
     this.setSelected()
     this.clicked(this.selected)
@@ -138,6 +148,9 @@ class PlayerInstance {
      * Хранит ссылку на объект PlayerInstance
      */
     var _self = this
+    /**
+     * Прослушивание клика по кнопке randomBtn
+     */
     _self.randomBtn.addEventListener('click', function (e) {
       if (_self.randomBool) {
         _self.randomBool = false
@@ -148,6 +161,9 @@ class PlayerInstance {
       }
     })
 
+    /**
+     * Прослушивание клика по кнопке repeatAllBtn
+     */
     _self.repeatAllBtn.addEventListener('click', function (e) {
       if (_self.repeatAllBool) {
         _self.repeatAllBool = false
@@ -158,6 +174,9 @@ class PlayerInstance {
       }
     })
 
+    /**
+     * Прослушивание клика по кнопке repeatOneBtn
+     */
     _self.repeatOneBtn.addEventListener('click', function (e) {
       if (_self.repeatOneBool) {
         _self.repeatOneBool = false
@@ -169,27 +188,8 @@ class PlayerInstance {
     })
 
     /**
-     * Запрет на перенос картинок-кнопок.
+     * Прослушивание клика по кнопке playPauseBtn
      */
-    _self.prevBtn.ondragstart = function () {
-      return false
-    }
-    _self.playPauseBtn.ondragstart = function () {
-      return false
-    }
-    _self.nextBtn.ondragstart = function () {
-      return false
-    }
-    _self.randomBtn.ondragstart = function () {
-      return false
-    }
-    _self.repeatAllBtn.ondragstart = function () {
-      return false
-    }
-    _self.repeatOneBtn.ondragstart = function () {
-      return false
-    }
-
     _self.playPauseBtn.onclick = function (e) {
       if (_self.selected == null) {
         _self.clicked(document.querySelector('.songContainer'))
@@ -198,14 +198,24 @@ class PlayerInstance {
       _self.clicked(_self.selected)
     }
 
+    /**
+     * Прослушивание клика по кнопке nextBtn
+     */
     _self.nextBtn.onclick = function (e) {
       _self.playNext()
     }
 
+    /**
+     * Прослушивание клика по кнопке prevBtn
+     */
     _self.prevBtn.onclick = function (e) {
       _self.playPrev()
     }
-
+    /**
+     * Прослушивание события timeupdate аудио-тега.
+     *
+     * Обновляет ползунок прогресса, место для названия песни, время проигрывания.
+     */
     _self.audio.addEventListener('timeupdate', function (e) {
       var songTime = document.getElementById('songTime')
       var duration = _self.audio.duration
@@ -231,7 +241,12 @@ class PlayerInstance {
         'width: ' + percentDuration * oneWidthPercent * 100 + 'px'
       )
     })
-
+    /**
+     * Функция для отображения знаков с добавленными нулями(2=>02).
+     *
+     * @param {int} number
+     * @param {int} length
+     */
     function pad (number, length) {
       var str = '' + number
       while (str.length < length) {
@@ -239,7 +254,9 @@ class PlayerInstance {
       }
       return str
     }
-
+    /**
+     * Прослушивание клика по ползунку проигрывания.
+     */
     _self.scrubber.addEventListener('click', function (e) {
       var relativeLeft = e.clientX - leftPos(_self.scrubber)
       _self.audio.currentTime =
@@ -256,9 +273,14 @@ class PlayerInstance {
       }
       return curleft
     }
-
+    /**
+     * Прослушивание события ended аудио-тега
+     */
     _self.audio.addEventListener('ended', songEnded)
 
+    /**
+     * Обрабатывает переключатели и выбирает нужную функцию проигрывания.
+     */
     function songEnded () {
       _self.setSelected()
       if (_self.repeatOneBool) {
@@ -279,6 +301,28 @@ class PlayerInstance {
       if (_self.repeatAllBool) {
         _self.skipToStart()
       }
+    }
+
+    /**
+     * Запреты на перенос картинок-кнопок.
+     */
+    _self.prevBtn.ondragstart = function () {
+      return false
+    }
+    _self.playPauseBtn.ondragstart = function () {
+      return false
+    }
+    _self.nextBtn.ondragstart = function () {
+      return false
+    }
+    _self.randomBtn.ondragstart = function () {
+      return false
+    }
+    _self.repeatAllBtn.ondragstart = function () {
+      return false
+    }
+    _self.repeatOneBtn.ondragstart = function () {
+      return false
     }
   }
 }
