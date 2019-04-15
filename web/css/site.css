@@ -223,6 +223,7 @@ a.desc:after {
     margin-top: -4px;
     border: 3px solid #7FDBFF;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .btnHighlight {

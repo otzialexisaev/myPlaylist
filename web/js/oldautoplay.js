@@ -18,10 +18,10 @@ var playlistBtn = document.getElementById('playlistBtn')
 var playlistMenu = document.getElementById('playlistMenu')
 var volumeSlider = document.getElementById('myRange')
 var selected = null
-_player.volume = 0.0090
+_player.volume = 0.009
 volumeSlider.value = 9
 
-document.getElementById('testdiv').innerHTML = "asd"
+document.getElementById('testdiv').innerHTML = 'asd'
 
 document.addEventListener('click', function (e) {
   if (
@@ -30,25 +30,30 @@ document.addEventListener('click', function (e) {
     e.target.classList.contains('songContainer')
   ) {
     activateSong(e.target)
-  } else if(e.target.classList.contains('addFavouriteBtn')) {
+  } else if (e.target.classList.contains('addFavouriteBtn')) {
     addFavourite(e)
   }
 })
 
-function setSelected(){
+function setSelected () {
   selected = _playlist.querySelector('.selected')
 }
 
 function activateSong (clickedElement) {
-  //Get _playlist
-  //var _playlist = document.getElementById('playlist')
-  if(_playlist!=null && _playlist.getAttribute('id')!=clickedElement.parentNode.getAttribute('id')){
+  // Get _playlist
+  // var _playlist = document.getElementById('playlist')
+  if (
+    _playlist != null &&
+    _playlist.getAttribute('id') != clickedElement.parentNode.getAttribute('id')
+  ) {
     setSelected()
     selected.classList.remove('selected')
-    selected.querySelector('.addFavouriteBtn').setAttribute('style','display:none;')
+    selected
+      .querySelector('.addFavouriteBtn')
+      .setAttribute('style', 'display:none;')
   }
   _playlist = clickedElement.parentNode
-  //Check if selected is the same song
+  // Check if selected is the same song
   setSelected()
   if (selected == clickedElement) {
     if (_player.paused) {
@@ -57,17 +62,19 @@ function activateSong (clickedElement) {
     } else {
       _playPauseBtn.src = 'css/resources/player/playBtn.jpg'
       _player.pause()
-    } 
+    }
     return
   } else {
-    //Remove selected class from previous song if it is not the
-    //same song
+    // Remove selected class from previous song if it is not the
+    // same song
     if (selected) {
       selected.classList.remove('selected')
-      selected.querySelector('.addFavouriteBtn').setAttribute('style','')
-    }  
+      selected.querySelector('.addFavouriteBtn').setAttribute('style', '')
+    }
   }
-  clickedElement.querySelector('.addFavouriteBtn').setAttribute('style','display:inherit;')
+  clickedElement
+    .querySelector('.addFavouriteBtn')
+    .setAttribute('style', 'display:inherit;')
   clickedElement.classList.add('selected')
   songTitle.innerHTML = clickedElement.textContent
   _player.src = clickedElement.getAttribute('data-audio')
@@ -75,14 +82,14 @@ function activateSong (clickedElement) {
   _player.play()
 }
 
-function songEnded(){
+function songEnded () {
   setSelected()
   if (repeatOneBool) {
     playSame()
     return
   }
 
-  if(randomBool){
+  if (randomBool) {
     playRandom()
     return
   }
@@ -91,14 +98,14 @@ function songEnded(){
     playNext()
     return
   }
-  
+
   if (repeatAllBool) {
     skipToStart()
   }
 }
 
 function playRandom () {
-  for(i = 0; i < ((Math.floor(Math.random() * 100))+1); i++){
+  for (i = 0; i < Math.floor(Math.random() * 100) + 1; i++) {
     playNext()
   }
 }
@@ -115,31 +122,31 @@ function playPrev () {
   }
 }
 
-function playNext(){
+function playNext () {
   setSelected()
-  if(randomBool){
-    for(i = 0; i < ((Math.floor(Math.random() * 100))+1); i++){
+  if (randomBool) {
+    for (i = 0; i < Math.floor(Math.random() * 100) + 1; i++) {
       setSelected()
-      if(selected.nextElementSibling){
+      if (selected.nextElementSibling) {
         activateSong(selected.nextElementSibling)
       } else {
         skipToStart()
       }
     }
     return
-  }  
+  }
 
   if (selected && selected.nextElementSibling) {
     activateSong(selected.nextElementSibling)
     return
-  } 
-  
-  if(selected && repeatAllBool){
+  }
+
+  if (selected && repeatAllBool) {
     skipToStart()
   }
 }
 
-function skipToStart(){
+function skipToStart () {
   setSelected()
   while (selected.previousElementSibling) {
     setSelected()
@@ -161,24 +168,24 @@ function skipToStart(){
 //   }
 // }
 
-_prevBtn.onclick = function(){
+_prevBtn.onclick = function () {
   setSelected()
-  if(selected && selected.previousElementSibling){
+  if (selected && selected.previousElementSibling) {
     playPrev()
-  } else if(selected && !selected.previousElementSibling && repeatAllBool){
+  } else if (selected && !selected.previousElementSibling && repeatAllBool) {
     skipToStart()
   }
 }
 
-_nextBtn.onclick = function(){
+_nextBtn.onclick = function () {
   setSelected()
-  if(selected && selected.nextElementSibling || randomBool){
+  if ((selected && selected.nextElementSibling) || randomBool) {
     playNext()
     return
-  } 
-  if(selected && !selected.nextElementSibling && repeatAllBool){
+  }
+  if (selected && !selected.nextElementSibling && repeatAllBool) {
     skipToStart()
-  } 
+  }
 }
 
 // event listeners
@@ -195,9 +202,9 @@ _playPauseBtn.addEventListener('click', function () {
   }
 })
 
-/////////////////////////////////////////////////////////
-//Updating width of progress bar insude scrubber
-/////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+// Updating width of progress bar insude scrubber
+/// //////////////////////////////////////////////////////
 
 _player.addEventListener('timeupdate', updatePlayer)
 
@@ -206,29 +213,37 @@ function updatePlayer () {
   var duration = _player.duration
   var percentDuration = _player.currentTime / duration
   var oneWidthPercent = _scrubber.offsetWidth / 100
-  var dur2min = Math.floor(duration / 60) + ":" +
-    pad(Math.floor(duration - Math.floor(duration / 60) * 60),2)
-  var cur2min = Math.floor(_player.currentTime / 60) + ":" +
-    pad(Math.floor(_player.currentTime - Math.floor(_player.currentTime / 60) * 60),2)
-  _songTime.innerHTML= cur2min + " - " + dur2min
+  var dur2min =
+    Math.floor(duration / 60) +
+    ':' +
+    pad(Math.floor(duration - Math.floor(duration / 60) * 60), 2)
+  var cur2min =
+    Math.floor(_player.currentTime / 60) +
+    ':' +
+    pad(
+      Math.floor(
+        _player.currentTime - Math.floor(_player.currentTime / 60) * 60
+      ),
+      2
+    )
+  _songTime.innerHTML = cur2min + ' - ' + dur2min
   _progress.setAttribute(
-    'style', 'width: ' + percentDuration * oneWidthPercent * 100 + 'px'
+    'style',
+    'width: ' + percentDuration * oneWidthPercent * 100 + 'px'
   )
 }
 
-function pad(number, length) {
-   
-  var str = '' + number;
+function pad (number, length) {
+  var str = '' + number
   while (str.length < length) {
-      str = '0' + str;
+    str = '0' + str
   }
- 
-  return str;
-
+  return str
 }
-/////////////////////////////////////////////////////////
-//Scrubber event for clicking on scrubber
-/////////////////////////////////////////////////////////
+
+/// //////////////////////////////////////////////////////
+// Scrubber event for clicking on scrubber
+/// //////////////////////////////////////////////////////
 
 _scrubber.addEventListener('click', function (e) {
   /* document.getElementById('testresult').innerHTML = e.clientX
@@ -252,9 +267,9 @@ function leftPos (elem) {
   return curleft
 }
 
-/////////////////////////////////////////////////////////
-//Option buttons events fow booleans switching
-/////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+// Option buttons events for booleans switching
+/// //////////////////////////////////////////////////////
 
 _randomBtn.addEventListener('click', function (e) {
   if (randomBool) {
@@ -286,47 +301,60 @@ _repeatOneBtn.addEventListener('click', function (e) {
   }
 })
 
-volumeSlider.oninput = function(){
-  //console.log(volumeSlider.value)
-  _player.volume = volumeSlider.value * volumeSlider.value /10000
+volumeSlider.oninput = function () {
+  // console.log(volumeSlider.value)
+  _player.volume = (volumeSlider.value * volumeSlider.value) / 10000
   console.log(_player.volume)
 }
 
-/////////////////////////////////////////////////////////
-//Stop user from dragging buttons
-/////////////////////////////////////////////////////////
-document.getElementById('prevBtn').ondragstart = function(){return false;};
-document.getElementById('playPauseBtn').ondragstart = function(){return false;};
-document.getElementById('nextBtn').ondragstart = function(){return false;};
-document.getElementById('randomBtn').ondragstart = function(){return false;};
-document.getElementById('repeatAllBtn').ondragstart = function(){return false;};
-document.getElementById('repeatOneBtn').ondragstart = function(){return false;};
-document.getElementById('playlistBtn').ondragstart = function(){return false;};
+/// //////////////////////////////////////////////////////
+// Stop user from dragging buttons
+/// //////////////////////////////////////////////////////
+document.getElementById('prevBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('playPauseBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('nextBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('randomBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('repeatAllBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('repeatOneBtn').ondragstart = function () {
+  return false
+}
+document.getElementById('playlistBtn').ondragstart = function () {
+  return false
+}
 
-/////////////////////////////////////////////////////////
-//Playlist Menu popping up on click playlistBtn
-/////////////////////////////////////////////////////////
-playlistBtn.addEventListener('click', function(){
-  if(playlistMenu.style.display =='inherit'){
-    playlistMenu.setAttribute('style','display:none')
+/// //////////////////////////////////////////////////////
+// Playlist Menu popping up on click playlistBtn
+/// //////////////////////////////////////////////////////
+playlistBtn.addEventListener('click', function () {
+  if (playlistMenu.style.display == 'inherit') {
+    playlistMenu.setAttribute('style', 'display:none')
   } else {
-    playlistMenu.setAttribute('style','display:inherit')
+    playlistMenu.setAttribute('style', 'display:inherit')
   }
 })
 
-playlistMenu.onclick = function(e){
-  if(e.target.classList.contains('playlistMenuItem')){
+playlistMenu.onclick = function (e) {
+  if (e.target.classList.contains('playlistMenuItem')) {
     var toChange = document.getElementById(e.target.innerHTML)
-    if(toChange.getAttribute('style')=='display:none'){
-      toChange.setAttribute('style','display:grid')
-      e.target.setAttribute('style','background-color:#7F7FD5')
-      e.target.setAttribute('data-toggle', "true")
+    if (toChange.getAttribute('style') == 'display:none') {
+      toChange.setAttribute('style', 'display:grid')
+      e.target.setAttribute('style', 'background-color:#7F7FD5')
+      e.target.setAttribute('data-toggle', 'true')
     } else {
-      toChange.setAttribute('style','display:none')
-      e.target.setAttribute('style','background-color:transparent')
-      e.target.setAttribute('data-toggle', "false")
+      toChange.setAttribute('style', 'display:none')
+      e.target.setAttribute('style', 'background-color:transparent')
+      e.target.setAttribute('data-toggle', 'false')
     }
     storeDataToggle()
   }
 }
-
