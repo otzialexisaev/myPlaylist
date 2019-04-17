@@ -1,13 +1,22 @@
 <?php
-/* @var $this yii\web\View */
-use app\models\Songs;
 
-$allSongs = Songs::find()->all();
+use app\models\Song;
+use app\models\mymodels\PlayerContainer;
+
+$playerContainer = new PlayerContainer();
+$playerContainer->display();
+
+echo "<div class='ostContainer'>";
+$allSongs = Song::find()->all();
 foreach($allSongs as $song){
-    echo substr($song->name, 0, -4)."<br>";
+    $song->display();
 }
-
+echo "</div>";
 ?>
+
+<audio id="audio"></audio>
+<div id="testdiv"></div>
+<script src="js/newautoplay.js"></script>
 
 <?php /*Занесение в базу данных 
 use app\models\Songs;

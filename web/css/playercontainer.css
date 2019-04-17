@@ -1,0 +1,189 @@
+/* Главный контейнер */
+
+#stickydiv {
+    background-color: white;
+    height: 60px;
+    position: sticky;
+    top: 60px;
+    padding: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+/* Обертка для кнопок */
+
+.btnWrapper {
+    height: 46px;
+    width: 46px;
+    transition-duration: 0.3s;
+    float: left;
+    margin-left: 10px;
+    margin-top: -4px;
+    border: 3px solid #7FDBFF;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Подсветка кнопок */
+
+.btnHighlight {
+    border: 3px solid black !important;
+}
+
+/* Правила чтобы запретить юзеру передвигать кнопки как кртинки */
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+/* Задний фон-контейнер для полосы прогресса проигрывания */
+
+#scrubber {
+    float: left;
+    height: 20px;
+    margin-top: 3px;
+    /*margin-left: 10px;*/
+    border-radius: 4px;
+    /*background-color: green;*/
+    background: -webkit-linear-gradient(left, #C9D6FF, rgb(201, 224, 255));
+    width: 100%;
+}
+
+/* Полоса прогресса проигрывания */
+
+#progressBar {
+    background: -webkit-linear-gradient(left, #2a2c97, #4155c5, #2a2c97);
+    width: 0px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+/* контейнер для блоков с именем, временем проигрыания и ползунком проигрывания */
+
+.songInfoContainer {
+    float: left;
+    margin-top: -5px;
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+/* Отступ для контейнера с информацией о треке и контейнера с названием трека и временем проигрывания */
+
+.songInfoContainer .titlePlusTime {
+    margin-top: 3px;
+}
+
+/* Блок для имени проигрываемого трека */
+
+#songTitle {
+    float: left;
+    height: 20px;
+    width: 670px;
+    overflow: hidden;
+}
+
+/* Блок для времени проигрывания трека */
+
+#songTime {
+    float: right;
+}
+
+/* Медиа правила для ширины 1200px и 992px */
+
+@media (max-width: 1200px) {
+    .container {
+        width: 970px !important;
+    }
+    #audioSliderContainer {
+        left: 960px !important;
+    }
+    #songTitle{
+        width: 480px  !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        width: 770px !important;
+    }
+    #audioSliderContainer {
+        left: 760px !important;
+    }
+    #songTitle{
+        width: 280px !important;
+    }
+}
+
+/* Контейнер ползунка громкости */
+
+#audioSliderContainer {
+    width: 150px;
+    /* Width of the outside container */
+    transform: rotate(90deg);
+    transform-origin: left;
+    position: relative;
+    left: 1160px;
+    top: -73px;
+    margin-bottom: -25px;
+    border: 1px solid #5d7ada;
+    border-radius: 4px;
+}
+
+/* Сам ползунок громкости */
+
+.slider {
+    -webkit-appearance: none;
+    /* Override default CSS styles */
+    width: 100%;
+    /* Full-width */
+    height: 25px;
+    /* Specified height */
+    background: #d3d3d3;
+    /* Grey background */
+    outline: none;
+    /* Remove outline */
+    opacity: 0.7;
+    /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s;
+    /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* При наведении на ползунок громкости */
+
+.slider:hover {
+    opacity: 1;
+    /* Fully shown on mouse-over */
+}
+
+/* Правила для отображения ползунка громкости */
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    width: 25px;
+    /* Set a specific slider handle width */
+    height: 25px;
+    /* Slider handle height */
+    background: #5d7ada;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+}

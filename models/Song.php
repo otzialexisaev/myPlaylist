@@ -11,14 +11,21 @@ use Yii;
  * @property string $name
  * @property string $path
  */
-class Songs extends \yii\db\ActiveRecord
+class Song extends \yii\db\ActiveRecord
 {
+
+    public function display()
+    {
+        echo '<div class="songContainer noselect" data-audio="' . $this->path . 
+        $this->name . '">'. substr($this->name, 0, -4) . '</div>';
+    }
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'Songs';
+        return 'Song';
     }
 
     /**

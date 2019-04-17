@@ -22,6 +22,8 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="stylesheet" type="text/css" href="css/playercontainer.css">
+    <link rel="stylesheet" type="text/css" href="css/songsdisplay.css">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -38,8 +40,8 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Playlists', 'url' => ['/playlists/index']],
-            ['label' => 'Songs', 'url' => ['/songs/songs']],
+            ['label' => 'Playlists', 'url' => ['/playlist/index']],
+            ['label' => 'Songs', 'url' => ['/song/songs']],
             ['label' => 'Home', 'url' => ['/site/index']],
             // ['label' => 'About', 'url' => ['/site/about']],
             // ['label' => 'Contact', 'url' => ['/site/contact']],

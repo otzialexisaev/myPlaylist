@@ -216,11 +216,19 @@ class PlayerInstance {
      *
      * Обновляет ползунок прогресса, место для названия песни, время проигрывания.
      */
-    _self.audio.addEventListener('timeupdate', function (e) {
+    _self.audio.addEventListener('timeupdate', updateScrubber)
+
+    function updateScrubber () {
       var songTime = document.getElementById('songTime')
       var duration = _self.audio.duration
       var percentDuration = _self.audio.currentTime / duration
       var oneWidthPercent = _self.scrubber.offsetWidth / 100
+      // Если продолжительность трека == NaN, не обрабатвать функцию
+      // Это нужно чтобы не выводилось NaN во времени трека при загрузке страницы
+      if(Number.isNaN(_self.audio.duration)){
+        console.log(_self.audio.duration);
+        return
+      }
       var dur2min =
         Math.floor(duration / 60) +
         ':' +
@@ -240,7 +248,8 @@ class PlayerInstance {
         'style',
         'width: ' + percentDuration * oneWidthPercent * 100 + 'px'
       )
-    })
+    }
+
     /**
      * Функция для отображения знаков с добавленными нулями(2=>02).
      *
@@ -324,6 +333,11 @@ class PlayerInstance {
     _self.repeatOneBtn.ondragstart = function () {
       return false
     }
+
+    /**
+     * Обновление ползунка прогресса при изменении размера страницы.
+     */
+    window.addEventListener('resize', updateScrubber())
   }
 }
 

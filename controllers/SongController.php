@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-class SongsController extends \yii\web\Controller
+class SongController extends \yii\web\Controller
 {
     public function actionSongs()
     {

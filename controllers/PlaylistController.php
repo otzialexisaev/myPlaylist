@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\Playlists;
+use app\models\Playlist;
 
-class PlaylistsController extends \yii\web\Controller
+class PlaylistController extends \yii\web\Controller
 {
 
     public function actionIndex()
@@ -14,7 +14,7 @@ class PlaylistsController extends \yii\web\Controller
 
     public function actionView($id)
     {
-        $playlist = Playlists::find()->where(['id'=>$id])->one();
+        $playlist = Playlist::find()->where(['id'=>$id])->one();
         return $this->render('view', ['playlist' => $playlist]);
     }
 
