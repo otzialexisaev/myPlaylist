@@ -16,9 +16,24 @@ class Song extends \yii\db\ActiveRecord
 
     public function display()
     {
-        echo '<div class="songContainer noselect" data-audio="' . $this->path . 
-        $this->name . '">'. substr($this->name, 0, -4) . '</div>';
+        echo '<div class="songContainer noselect" data-audio="'
+        . $this->path
+        . $this->name
+        . '">'
+        . substr($this->name, 0, -4) 
+        . '</div>';
     }
+
+
+    // public function display()
+    // {
+    //     echo '<div class="songContainer noselect" data-audio="'
+    //     . $this->path
+    //     . $this->name
+    //     . '">'
+    //     . substr($this->name, 0, -4) 
+    //     . '</div>';
+    // }
 
     /**
      * {@inheritdoc}

@@ -15,6 +15,30 @@ use Yii;
 class Playlist extends \yii\db\ActiveRecord
 {
     private $relatedSongs = [];
+
+    const OTHER_PLAYLIST_ITEM_TEXT = "Другой плэйлист";
+
+    public static function addMenu()
+    {
+        $allLists = self::find()->limit(5)->all();
+        //echo '<div id="songMenu">';
+        echo '<div id="showMenuBtn">';
+        echo '<div id="showMenuBtn-child">';
+
+        foreach ($allLists as $playlist) {
+            echo '<div class="showMenuBtn-child-item">';
+            echo $playlist->name;
+            echo '</div>';
+        }
+        echo '<div id="otherPlaylistOption" class="showMenuBtn-child-item">';
+        echo self::OTHER_PLAYLIST_ITEM_TEXT;
+       
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        //echo '</div>';
+    }
+
     private function getRelatedSongs()
     {
         $relatedRSPObjects = RelSongsPlaylists::find()->where(['playlist_id' => $this->id])->all();

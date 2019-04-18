@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Song;
+use app\models\Playlist;
 use app\models\mymodels\PlayerContainer;
 
 $playerContainer = new PlayerContainer();
@@ -12,11 +13,14 @@ foreach($allSongs as $song){
     $song->display();
 }
 echo "</div>";
+Playlist::addMenu();
 ?>
 
 <audio id="audio"></audio>
 <div id="testdiv"></div>
+<script src="js/jquery.js"></script>
 <script src="js/newautoplay.js"></script>
+<script src="js/menu.js"></script>
 
 <?php /*Занесение в базу данных 
 use app\models\Songs;

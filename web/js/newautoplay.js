@@ -48,7 +48,7 @@ class PlayerInstance {
     }
     clicked.classList.add('selected')
     this.setSelected()
-    this.songTitle.innerHTML = clicked.innerHTML
+    this.songTitle.innerHTML = clicked.innerText
     this.audio.src = clicked.getAttribute('data-audio')
     this.playPauseBtn.src = 'css/resources/player/pauseBtn.jpg'
     this.audio.play()

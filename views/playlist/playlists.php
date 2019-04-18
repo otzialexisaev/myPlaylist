@@ -13,4 +13,7 @@ foreach ($playlists as $playlist) {
 }
 
 echo "</div>";
+Playlist::addMenu();
 ?>
+
+<script src="js/menu.js"></script>
