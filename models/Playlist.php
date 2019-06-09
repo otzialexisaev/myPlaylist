@@ -20,26 +20,25 @@ class Playlist extends \yii\db\ActiveRecord
 
     public static function addMenu()
     {
-        $allLists = self::find()->limit(5)->all();
-        //echo '<div id="songMenu">';
-        echo '<div id="showMenuBtn">';
-        echo '<div id="showMenuBtn-child">';
+        $firstFiveLists = self::find()->limit(5)->all();
+        echo '<div id="showSongMenuBtn">';
+        echo '<div id="songMenu">';
 
-        foreach ($allLists as $playlist) {
-            echo '<div class="showMenuBtn-child-item">';
+        foreach ($firstFiveLists as $playlist) {
+            echo '<div class="songMenu-item" data-playlistid="'
+            . $playlist->id . '">';
             echo $playlist->name;
             echo '</div>';
         }
-        echo '<div id="otherPlaylistOption" class="showMenuBtn-child-item">';
+        echo '<div id="songMenu-other-playlists" class="songMenu-item">';
         echo self::OTHER_PLAYLIST_ITEM_TEXT;
-       
+
         echo '</div>';
         echo '</div>';
         echo '</div>';
-        //echo '</div>';
     }
 
-    private function getRelatedSongs()
+    public function getRelatedSongs()
     {
         $relatedRSPObjects = RelSongsPlaylists::find()->where(['playlist_id' => $this->id])->all();
         foreach ($relatedRSPObjects as $RSPObject) {
@@ -55,6 +54,8 @@ class Playlist extends \yii\db\ActiveRecord
             $song->display();
         }
     }
+
+//////////////////////////////////////////////////////////////////////////
 
     /**
      * {@inheritdoc}

@@ -2,13 +2,13 @@
 classes = document.getElementsByClassName('songContainer')
 for (var i = 0; i < classes.length; i++) {
   classes[i].addEventListener('mouseover', function (e) {
-    showMenuBtn(e)
+    showSongMenuBtn(e)
   })
   classes[i].addEventListener('mouseout', onMouseOut, true)
   console.log(classes)
 }
 
-function showMenuBtn (e) {
+function showSongMenuBtn (e) {
   menu = document.getElementById('mainmenubtn')
   if (e.target.contains(menu)) {
     return
@@ -16,7 +16,7 @@ function showMenuBtn (e) {
   clone = menu.cloneNode(true)
   menu.parentNode.removeChild(menu)
   e.target.appendChild(clone)
-  showMenuBtnMouseOverListener()
+  showSongMenuBtnMouseOverListener()
 }
 
 function onMouseOut (event) {
@@ -28,7 +28,7 @@ function onMouseOut (event) {
   // handle mouse event here!
 }
 
-function showMenuBtnMouseOverListener(){
+function showSongMenuBtnMouseOverListener(){
     document
     .getElementById('mainmenubtn')
     .addEventListener('click', function (e) {
@@ -36,7 +36,7 @@ function showMenuBtnMouseOverListener(){
     })
 }
 
-function showMenuBtnMouseOutListener(){
+function showSongMenuBtnMouseOutListener(){
     document
     .getElementById('songMenuBtn')
     .addEventListener('mouseout', onMouseOut, true)

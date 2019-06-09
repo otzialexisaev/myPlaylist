@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Playlist;
+use app\models\Song;
 
 class PlaylistController extends \yii\web\Controller
 {
@@ -17,5 +18,4 @@ class PlaylistController extends \yii\web\Controller
         $playlist = Playlist::find()->where(['id'=>$id])->one();
         return $this->render('view', ['playlist' => $playlist]);
     }
-
 }

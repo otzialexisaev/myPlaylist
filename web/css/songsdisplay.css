@@ -70,7 +70,7 @@
 
 /* Выпадающее меню песни */
 
-#showMenuBtn {
+#showSongMenuBtn {
     background: url("resources/player/songMenuDisplayBtn.png") no-repeat;
     display: none;
     position: relative;
@@ -82,7 +82,7 @@
     margin-bottom: -9999px;
 }
 
-#showMenuBtn-child {
+#songMenu {
     display: none;
     min-width: 200px;
     position: absolute;
@@ -92,13 +92,14 @@
     background: wheat;
 }
 
-.showMenuBtn-child-item {
+.songMenu-item {
     background: inherit;
     color: black;
     padding: 10px;
     transition-duration: 0.5s;
 }
 
-.showMenuBtn-child-item:hover {
+.songMenu-item:hover {
+    font-weight: bold;
     background: blue;
 }

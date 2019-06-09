@@ -13,6 +13,19 @@ use Yii;
  */
 class RelSongsPlaylists extends \yii\db\ActiveRecord
 {
+    public static function addRelation($playlistId, $songId){
+        $insctance = new self();
+        if(RelSongsPlaylists::find()->where([
+            'playlist_id'=>$playlistId, 
+            'song_id' => $songId
+            ])->all()) {
+                return false;
+        }
+        $insctance->playlist_id = $playlistId;
+        $insctance->song_id = $songId;
+        return $insctance;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -29,8 +42,8 @@ class RelSongsPlaylists extends \yii\db\ActiveRecord
         return [
             [['song_id', 'playlist_id'], 'required'],
             [['song_id', 'playlist_id'], 'integer'],
-            [['playlist_id'], 'exist', 'skipOnError' => true, 'targetClass' => Playlists::className(), 'targetAttribute' => ['playlist_id' => 'id']],
-            [['song_id'], 'exist', 'skipOnError' => true, 'targetClass' => Songs::className(), 'targetAttribute' => ['song_id' => 'id']],
+            [['playlist_id'], 'exist', 'skipOnError' => true, 'targetClass' => Playlist::className(), 'targetAttribute' => ['playlist_id' => 'id']],
+            [['song_id'], 'exist', 'skipOnError' => true, 'targetClass' => Song::className(), 'targetAttribute' => ['song_id' => 'id']],
         ];
     }
 

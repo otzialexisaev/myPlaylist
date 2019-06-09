@@ -1,19 +1,16 @@
 // events listeners work
-classes = document.getElementsByClassName('songContainer')
-for (var i = 0; i < classes.length; i++) {
-  classes[i].addEventListener('mouseenter', function (e) {
-    showMenuBtn(e)
+songContainers = document.getElementsByClassName('songContainer')
+for (var i = 0; i < songContainers.length; i++) {
+  songContainers[i].addEventListener('mouseenter', function (e) {
+    showSongMenuBtn(e)
   })
-  classes[i].addEventListener('mouseleave', function (e) {
+  songContainers[i].addEventListener('mouseleave', function (e) {
     onMouseLeave(e)
-  })
-  document.getElementById('testdiv').addEventListener('click', function () {
-    showMenuBtnOnClickListener()
   })
 }
 
 /**
- * Отображает меню при наведении на контейнер-песни.
+ * Отображает кнпоку меню showWongMenuBtn при наведении на контейнер-песни.
  * 
  * Ищет в документе меню по id, которое добавляется на страницу 
  * через Playlist::addMenu(). Снимает с него невидимость. Если
@@ -24,19 +21,17 @@ for (var i = 0; i < classes.length; i++) {
  * 
  * @param {*} e 
  */
-
-function showMenuBtn (e) {
-  menu = document.getElementById('showMenuBtn')
+function showSongMenuBtn (e) {
+  menu = document.getElementById('showSongMenuBtn')
   menu.style.display = 'unset'
   if (e.target.contains(menu)) {
-    console.log('contains')
     return
   }
   clone = menu.cloneNode(true)
   menu.parentNode.removeChild(menu)
   e.target.prepend(clone)
   clone.addEventListener('click', function () {
-    showMenuBtnClickListener()
+    showSongMenuBtnClickListener()
   })
   addItemClickListeners()
 }
@@ -47,8 +42,8 @@ function showMenuBtn (e) {
  * Отображает меню если оно не отображено и наоборот.
  */
 
-function showMenuBtnClickListener () {
-  dropdownChild = document.getElementById('showMenuBtn-child')
+function showSongMenuBtnClickListener () {
+  dropdownChild = document.getElementById('songMenu')
   if (dropdownChild.style.display == 'unset') {
     dropdownChild.style.display = 'none'
     return
@@ -63,7 +58,7 @@ function showMenuBtnClickListener () {
  * @param {*} event
  */
 function onMouseLeave (event) {
-  dropdownChild = document.getElementById('showMenuBtn-child')
+  dropdownChild = document.getElementById('songMenu')
   dropdownChild.style.display = 'none'
 }
 
@@ -71,7 +66,8 @@ function onMouseLeave (event) {
  * Прослушивание кликов по элементам меню
  */
 function addItemClickListeners () {
-  menuitems = document.getElementsByClassName('showMenuBtn-child-item')
+  menuitems = document.getElementsByClassName('songMenu-item')
+
   for (let index = 0; index < menuitems.length; index++) {
     menuitems[index].addEventListener('click', function (e) {
       addToPlaylist(e.target)
@@ -82,7 +78,41 @@ function addItemClickListeners () {
 /**
  * Ajax запрос на добавление песни в плейлист 
  * */
-
 function addToPlaylist (el) {
-  console.log('asdasd')
+  song = el.parentNode.parentNode.parentNode
+  cloneSong = song.cloneNode(true)
+  // console.log(song);
+  // console.log(el);
+  // console.log(cloneSong);
+  
+  while (cloneSong.firstChild) {
+    cloneSong.removeChild(cloneSong.firstChild);
+  }
+  
+  var xhttp = new XMLHttpRequest()
+  xhttp.open("GET", "/index.php?r=song%2Fadd&playlistId=" + el.getAttribute('data-playlistid') +
+    "&songId=" + cloneSong.getAttribute('data-songid'), true)
+  xhttp.onload = function() {
+    console.log(this.responseText);
+  }
+  xhttp.send()
+}
+
+function parseSongPath(el){
+  result = el.getAttribute('data-audio')
+  resultArr = result.split("/")
+  pathArr = []
+  for(i = 0; i<resultArr.length-1; i++) {
+    pathArr.push(resultArr[i])
+  }
+  path = pathArr.join('/') + '/'
+  return path
+}
+
+function parseSongNameFromPath(el){
+  result = el.getAttribute('data-audio')
+  resultArr = result.split("/")
+  last = resultArr[resultArr.length-1]
+  sub = last.substr(0,last.length-4)
+  return sub
 }
