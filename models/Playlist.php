@@ -18,23 +18,24 @@ class Playlist extends \yii\db\ActiveRecord
 
     const OTHER_PLAYLIST_ITEM_TEXT = "Другой плэйлист";
 
+    /**
+     *  Добавляет невидимое меню на страницу которое потом перемещается и становится видимым в ДЖске
+     */
     public static function addMenu()
     {
-        $firstFiveLists = self::find()->limit(5)->all();
+        $firstFiveLists = self::find()->limit(5)->orderBy(['changed_at'=> SORT_DESC])->all();
         echo '<div id="showSongMenuBtn">';
-        echo '<div id="songMenu">';
-
-        foreach ($firstFiveLists as $playlist) {
-            echo '<div class="songMenu-item" data-playlistid="'
-            . $playlist->id . '">';
-            echo $playlist->name;
+            echo '<div id="songMenu">';
+                foreach ($firstFiveLists as $playlist) {
+                    echo '<div class="songMenu-item" data-playlistid="'
+                    . $playlist->id . '">';
+                        echo $playlist->name;
+                    echo '</div>';
+                }
+                echo '<div id="songMenu-other-playlists" class="songMenu-item">';
+                echo self::OTHER_PLAYLIST_ITEM_TEXT;
+                echo '</div>';
             echo '</div>';
-        }
-        echo '<div id="songMenu-other-playlists" class="songMenu-item">';
-        echo self::OTHER_PLAYLIST_ITEM_TEXT;
-
-        echo '</div>';
-        echo '</div>';
         echo '</div>';
     }
 
@@ -74,6 +75,7 @@ class Playlist extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
+            [['changed_at'], 'safe'], 
         ];
     }
 
@@ -85,6 +87,15 @@ class Playlist extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'changed_at' => 'Changed At', 
         ];
     }
+ 
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getRelsongsplaylists() 
+    { 
+        return $this->hasMany(Relsongsplaylists::className(), ['playlist_id' => 'id']); 
+    } 
 }

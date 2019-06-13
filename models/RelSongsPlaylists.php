@@ -14,16 +14,16 @@ use Yii;
 class RelSongsPlaylists extends \yii\db\ActiveRecord
 {
     public static function addRelation($playlistId, $songId){
-        $insctance = new self();
+        $instance = new self();
         if(RelSongsPlaylists::find()->where([
             'playlist_id'=>$playlistId, 
             'song_id' => $songId
             ])->all()) {
                 return false;
         }
-        $insctance->playlist_id = $playlistId;
-        $insctance->song_id = $songId;
-        return $insctance;
+        $instance->playlist_id = $playlistId;
+        $instance->song_id = $songId;
+        return $instance;
     }
 
     /**

@@ -41,7 +41,6 @@ function showSongMenuBtn (e) {
  * 
  * Отображает меню если оно не отображено и наоборот.
  */
-
 function showSongMenuBtnClickListener () {
   dropdownChild = document.getElementById('songMenu')
   if (dropdownChild.style.display == 'unset') {
@@ -68,29 +67,42 @@ function onMouseLeave (event) {
 function addItemClickListeners () {
   menuitems = document.getElementsByClassName('songMenu-item')
 
-  for (let index = 0; index < menuitems.length; index++) {
+  for (let index = 0; index < menuitems.length-1; index++) {
     menuitems[index].addEventListener('click', function (e) {
       addToPlaylist(e.target)
     })
   }
+  menuitems[menuitems.length-1].addEventListener('click', function(e) {
+    showAddPlaylist()
+  })
 }
 
+function showAddPlaylist(){
+  var xhttp = new XMLHttpRequest()
+  xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true)
+  xhttp.onload = function() {
+    var div = document.createElement("div")
+    div.style.position = "static"
+    div.innerHTML = JSON.parse(this.responseText).html
+    document.body.appendChild(div)
+    
+  }
+  xhttp.send()
+}
+ 
 /**
  * Ajax запрос на добавление песни в плейлист 
  * */
 function addToPlaylist (el) {
   song = el.parentNode.parentNode.parentNode
   cloneSong = song.cloneNode(true)
-  // console.log(song);
-  // console.log(el);
-  // console.log(cloneSong);
-  
+
   while (cloneSong.firstChild) {
     cloneSong.removeChild(cloneSong.firstChild);
   }
   
   var xhttp = new XMLHttpRequest()
-  xhttp.open("GET", "/index.php?r=song%2Fadd&playlistId=" + el.getAttribute('data-playlistid') +
+  xhttp.open("GET", "/index.php?r=relsongsplaylists%2Fadd&playlistId=" + el.getAttribute('data-playlistid') +
     "&songId=" + cloneSong.getAttribute('data-songid'), true)
   xhttp.onload = function() {
     console.log(this.responseText);
