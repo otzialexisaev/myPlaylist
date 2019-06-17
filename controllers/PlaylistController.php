@@ -8,7 +8,7 @@ class PlaylistController extends \yii\web\Controller
 {
     public function actionShowaddplaylistmenu()
     {
-        return $this->get_include_contents('../views/playlist/_addPlaylistForm.php');
+        return $this->get_include_contents('../views/playlist/_addPlaylistMenu.php');
     }
 
     function get_include_contents($filename) {

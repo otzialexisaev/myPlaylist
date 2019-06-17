@@ -103,39 +103,3 @@
     font-weight: bold;
     background: #ac4d8f;
 }
-
-#menu-darkbg{
-    left: 50%;
-    top: 50%;
-    margin-left: -250px;
-    margin-top: -350px;
-    width: 500px;
-    height: 700px;
-    background-color: lightblue;
-    position: absolute;
-    z-index: 99999;
-    padding: 50px 20px 20px 20px;
-}
-
-#background {
-    opacity: 0.8;
-    background-color: gray;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: 99998;
-}
-
-#inner-playlist-form {
-    width: 100%;
-    background-color: white;
-    height: 95%;
-    z-index: 99999;
-}
-
-.add-playlist-menu-item{
-    border-bottom: 1px solid black;
-    height: 50px;
-}

@@ -73,21 +73,87 @@ function addItemClickListeners () {
     })
   }
   menuitems[menuitems.length-1].addEventListener('click', function(e) {
-    showAddPlaylist()
+    showAddPlaylistMenu()
   })
 }
 
-function showAddPlaylist(){
+/**
+ * Получение меню из пхп файла в виде json как html и добавление его к body
+ * и прослушивание сабмита формы
+ */
+function showAddPlaylistMenu(){
   var xhttp = new XMLHttpRequest()
   xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true)
   xhttp.onload = function() {
-    var div = document.createElement("div")
-    div.style.position = "static"
-    div.innerHTML = JSON.parse(this.responseText).html
-    document.body.appendChild(div)
-    
+    //создание контэйнера для меню и добавление его к body
+    var menu = document.createElement("div")
+    menu.style.position = "static"
+    menu.id = "add-playlist-menu"
+    menu.innerHTML = JSON.parse(this.responseText).html
+    document.body.appendChild(menu)
+
+    // прослушивание кликов по плейлистам. на клик - доабвление id плейлиста в локалстор
+    var playlistItems = document.getElementsByClassName('add-playlist-menu-item')
+    console.log(playlistItems)
+    for (let item of playlistItems) {
+      item.addEventListener('click', function(el) {
+        addPlaylistsToAddTo(el.target)
+      })
+    }
+
+    //прослушивание сабмита формы. на сабмит - ajax запрос с id выбранных плэйлистов
+    var submitBtn = document.getElementById('add-playlist-menu-submit-form')
+    submitBtn.addEventListener('submit', function(event) {
+      event.preventDefault()
+      sendPlaylistsToAddTo()
+      closeMenu()
+      return false
+    })
   }
   xhttp.send()
+}
+
+/**
+ * Добавляет выбранные в меню плйэлисты в локалстор лмбо удаляет из него
+ */
+function addPlaylistsToAddTo(el){
+
+  var store = JSON.parse( localStorage.getItem('playlists-to-add'))
+  if(store == null) {
+    store = []
+  }
+  store.push(el.id)
+  localStorage.setItem('playlists-to-add', JSON.stringify(store))
+  console.log(localStorage.getItem('playlists-to-add'))
+
+
+//////////////////////////////////////////////////////
+// How many there are elements in the playlistMenu
+//   function storeDataToggleLog () {
+//     var len = $('.playlistMenuItem').siblings().length
+//   console.log('siblings count: ' + len)
+//   for (var i = 1; i <= len; i++) {
+//     localStorage.setItem('test' + i, $('#MenuItem'+i).attr('data-toggle'))
+//     console.log("MenuItem's data-toggle" + i + ": " + localStorage.getItem('test' + i))
+//   }
+// }
+
+//   var names = [];
+//   names[0] = prompt("New member name?");
+//   localStorage.setItem("names", JSON.stringify(names));
+//
+// //...
+//   var storedNames = JSON.parse(localStorage.getItem("names"));
+
+
+}
+
+function sendPlaylistsToAddTo(){
+  var menu = document.getElementById('add-playlist-menu')
+}
+
+function closeMenu(){
+  localStorage.clear()
 }
  
 /**
@@ -109,6 +175,33 @@ function addToPlaylist (el) {
   }
   xhttp.send()
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function parseSongPath(el){
   result = el.getAttribute('data-audio')

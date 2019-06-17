@@ -24,6 +24,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <link rel="stylesheet" type="text/css" href="css/playercontainer.css">
     <link rel="stylesheet" type="text/css" href="css/songsdisplay.css">
+    <link rel="stylesheet" type="text/css" href="css/addplaylistmenu.css">
 </head>
 <body>
 <?php $this->beginBody() ?>
