@@ -8,7 +8,7 @@ class PlayerInstance {
      * Проигрываемый трек
      */
     this.selected = null
-    this.audio.preload = true
+    // this.audio.preload = auto
     this.randomBtn = document.getElementById('randomBtn')
     this.repeatAllBtn = document.getElementById('repeatAllBtn')
     this.repeatOneBtn = document.getElementById('repeatOneBtn')

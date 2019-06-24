@@ -13,9 +13,17 @@ use Yii;
  */
 class RelSongsPlaylists extends \yii\db\ActiveRecord
 {
+    /**
+     * Принмает id плейлиста и песни, если такая комбинация уже есть - возвращает false
+     * либо возвращает себя с заполненными полями playlist_id и song_id.
+     *
+     * @param $playlistId
+     * @param $songId
+     * @return RelSongsPlaylists|bool
+     */
     public static function addRelation($playlistId, $songId){
         $instance = new self();
-        if(RelSongsPlaylists::find()->where([
+        if(self::find()->where([
             'playlist_id'=>$playlistId, 
             'song_id' => $songId
             ])->all()) {
@@ -24,6 +32,10 @@ class RelSongsPlaylists extends \yii\db\ActiveRecord
         $instance->playlist_id = $playlistId;
         $instance->song_id = $songId;
         return $instance;
+    }
+
+    public static function one() {
+
     }
 
     /**

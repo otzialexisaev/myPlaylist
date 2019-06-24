@@ -19,7 +19,7 @@ $html .=
     '<div style="display: table;width: inherit;">';
   foreach ($playlistsAttributes as $attribute ) {
       $html .= '<div style="display: table-row;">';
-      $html .= '<div id="'. $attribute['id'] .'" class="add-playlist-menu-item">';
+      $html .= '<div id="'. $attribute['id'] .'" class="add-playlist-menu-item noselect">';
       $html .= $attribute['name'];
       $html .= '</div>';
       $html .= '</div>';

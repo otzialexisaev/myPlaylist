@@ -12,7 +12,7 @@ $playlists = Playlist::find()->all();
 foreach ($playlists as $playlist) {
     echo $this->render('_playlistIcon', ['playlist' => $playlist]);
 }
-echo '<a href=# id="new-playlist-btn"><div class="playlistIcon"><p>Добавить<br>плэйлист</p></div></a>';
+echo '<a href=# id="new-playlist-btn"><div class="playlistIcon"><p>Добавить<br>плейлист</p></div></a>';
 
 echo "</div>";
 Playlist::addMenu();

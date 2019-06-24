@@ -16,7 +16,7 @@ class Playlist extends \yii\db\ActiveRecord
 {
     private $relatedSongs = [];
 
-    const OTHER_PLAYLIST_ITEM_TEXT = "Другой плэйлист";
+    const OTHER_PLAYLIST_ITEM_TEXT = "Другой плейлист";
 
     /**
      *  Добавляет невидимое меню на страницу которое потом перемещается и становится видимым в ДЖске

@@ -69,19 +69,23 @@ function addItemClickListeners () {
 
   for (let index = 0; index < menuitems.length-1; index++) {
     menuitems[index].addEventListener('click', function (e) {
-      addToPlaylist(e.target)
+      addItemClick(e.target)
     })
   }
   menuitems[menuitems.length-1].addEventListener('click', function(e) {
-    showAddPlaylistMenu()
+    let songContainer = e.target.parentNode.parentNode.parentNode
+    let id = songContainer.getAttribute('data-songid')
+    showAddPlaylistMenu(id)
   })
 }
 
 /**
  * Получение меню из пхп файла в виде json как html и добавление его к body
  * и прослушивание сабмита формы
+ *
+ * @param int id
  */
-function showAddPlaylistMenu(){
+function showAddPlaylistMenu(id){
   var xhttp = new XMLHttpRequest()
   xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true)
   xhttp.onload = function() {
@@ -92,20 +96,23 @@ function showAddPlaylistMenu(){
     menu.innerHTML = JSON.parse(this.responseText).html
     document.body.appendChild(menu)
 
+    // очистка локалстора чтобы при случайной перезгрузке страницы выбранные плейлисты не сохранялись в памяти
+    localStorage.clear()
+
     // прослушивание кликов по плейлистам. на клик - доабвление id плейлиста в локалстор
     var playlistItems = document.getElementsByClassName('add-playlist-menu-item')
-    console.log(playlistItems)
+    // console.log(playlistItems)
     for (let item of playlistItems) {
       item.addEventListener('click', function(el) {
         addPlaylistsToAddTo(el.target)
       })
     }
 
-    //прослушивание сабмита формы. на сабмит - ajax запрос с id выбранных плэйлистов
+    //прослушивание сабмита формы. на сабмит - ajax запрос с id выбранных плейлистов
     var submitBtn = document.getElementById('add-playlist-menu-submit-form')
     submitBtn.addEventListener('submit', function(event) {
       event.preventDefault()
-      sendPlaylistsToAddTo()
+      sendPlaylistsToAddTo(id)
       closeMenu()
       return false
     })
@@ -126,48 +133,43 @@ function addPlaylistsToAddTo(el){
   localStorage.setItem('playlists-to-add', JSON.stringify(store))
   console.log(localStorage.getItem('playlists-to-add'))
 
-
-//////////////////////////////////////////////////////
-// How many there are elements in the playlistMenu
-//   function storeDataToggleLog () {
-//     var len = $('.playlistMenuItem').siblings().length
-//   console.log('siblings count: ' + len)
-//   for (var i = 1; i <= len; i++) {
-//     localStorage.setItem('test' + i, $('#MenuItem'+i).attr('data-toggle'))
-//     console.log("MenuItem's data-toggle" + i + ": " + localStorage.getItem('test' + i))
-//   }
-// }
-
-//   var names = [];
-//   names[0] = prompt("New member name?");
-//   localStorage.setItem("names", JSON.stringify(names));
-//
-// //...
-//   var storedNames = JSON.parse(localStorage.getItem("names"));
-
-
 }
 
-function sendPlaylistsToAddTo(){
-  var menu = document.getElementById('add-playlist-menu')
+/**
+ * Передает отмеченные в меню плейлисты в контроллер для сохранения.
+ * Архив передается строкой и парсится в контроллере.
+ *
+ * @param id
+ */
+function sendPlaylistsToAddTo(id){
+  let store = localStorage.getItem('playlists-to-add')
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/index.php?r=relsongsplaylists%2Faddarray&playlistIds=" + store +
+      "&songId=" + id, true)
+  xhttp.onload = function() {
+    // console.log(this.responseText);
+  }
+  xhttp.send()
 }
 
 function closeMenu(){
   localStorage.clear()
+  var menu = document.getElementById('add-playlist-menu')
+  menu.parentNode.removeChild(menu)
 }
- 
+
 /**
  * Ajax запрос на добавление песни в плейлист 
  * */
-function addToPlaylist (el) {
-  song = el.parentNode.parentNode.parentNode
-  cloneSong = song.cloneNode(true)
+function addItemClick (el) {
+  let song = el.parentNode.parentNode.parentNode
+  let cloneSong = song.cloneNode(true)
 
   while (cloneSong.firstChild) {
     cloneSong.removeChild(cloneSong.firstChild);
   }
-  
-  var xhttp = new XMLHttpRequest()
+
+  let xhttp = new XMLHttpRequest()
   xhttp.open("GET", "/index.php?r=relsongsplaylists%2Fadd&playlistId=" + el.getAttribute('data-playlistid') +
     "&songId=" + cloneSong.getAttribute('data-songid'), true)
   xhttp.onload = function() {
