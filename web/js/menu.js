@@ -1,12 +1,12 @@
 // events listeners work
-songContainers = document.getElementsByClassName('songContainer')
+songContainers = document.getElementsByClassName('songContainer');
 for (var i = 0; i < songContainers.length; i++) {
   songContainers[i].addEventListener('mouseenter', function (e) {
     showSongMenuBtn(e)
-  })
+  });
   songContainers[i].addEventListener('mouseleave', function (e) {
     onMouseLeave(e)
-  })
+  });
 }
 
 /**
@@ -22,18 +22,18 @@ for (var i = 0; i < songContainers.length; i++) {
  * @param {*} e 
  */
 function showSongMenuBtn (e) {
-  menu = document.getElementById('showSongMenuBtn')
-  menu.style.display = 'unset'
+  menu = document.getElementById('showSongMenuBtn');
+  menu.style.display = 'unset';
   if (e.target.contains(menu)) {
     return
   }
-  clone = menu.cloneNode(true)
-  menu.parentNode.removeChild(menu)
-  e.target.prepend(clone)
+  clone = menu.cloneNode(true);
+  menu.parentNode.removeChild(menu);
+  e.target.prepend(clone);
   clone.addEventListener('click', function () {
-    showSongMenuBtnClickListener()
-  })
-  addItemClickListeners()
+    showSongMenuBtnClickListener();
+  });
+  addItemClickListeners();
 }
 
 /**
@@ -42,12 +42,12 @@ function showSongMenuBtn (e) {
  * Отображает меню если оно не отображено и наоборот.
  */
 function showSongMenuBtnClickListener () {
-  dropdownChild = document.getElementById('songMenu')
+  dropdownChild = document.getElementById('songMenu');
   if (dropdownChild.style.display == 'unset') {
-    dropdownChild.style.display = 'none'
-    return
+    dropdownChild.style.display = 'none';
+    return;
   }
-  dropdownChild.style.display = 'unset'
+  dropdownChild.style.display = 'unset';
 }
 
 /**
@@ -57,7 +57,7 @@ function showSongMenuBtnClickListener () {
  * @param {*} event
  */
 function onMouseLeave (event) {
-  dropdownChild = document.getElementById('songMenu')
+  dropdownChild = document.getElementById('songMenu');
   dropdownChild.style.display = 'none'
 }
 
@@ -65,17 +65,17 @@ function onMouseLeave (event) {
  * Прослушивание кликов по элементам меню
  */
 function addItemClickListeners () {
-  menuitems = document.getElementsByClassName('songMenu-item')
+  menuitems = document.getElementsByClassName('songMenu-item');
 
   for (let index = 0; index < menuitems.length-1; index++) {
     menuitems[index].addEventListener('click', function (e) {
-      addItemClick(e.target)
+      addItemClick(e.target);
     })
   }
   menuitems[menuitems.length-1].addEventListener('click', function(e) {
-    let songContainer = e.target.parentNode.parentNode.parentNode
-    let id = songContainer.getAttribute('data-songid')
-    showAddPlaylistMenu(id)
+    let songContainer = e.target.parentNode.parentNode.parentNode;
+    let id = songContainer.getAttribute('data-songid');
+    showAddPlaylistMenu(id);
   })
 }
 
@@ -83,40 +83,45 @@ function addItemClickListeners () {
  * Получение меню из пхп файла в виде json как html и добавление его к body
  * и прослушивание сабмита формы
  *
- * @param int id
+ * @param id
  */
 function showAddPlaylistMenu(id){
-  var xhttp = new XMLHttpRequest()
-  xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true)
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true);
   xhttp.onload = function() {
     //создание контэйнера для меню и добавление его к body
-    var menu = document.createElement("div")
-    menu.style.position = "static"
-    menu.id = "add-playlist-menu"
-    menu.innerHTML = JSON.parse(this.responseText).html
-    document.body.appendChild(menu)
+    var menu = document.createElement("div");
+    menu.style.position = "static";
+    menu.id = "add-playlist-menu";
+    menu.innerHTML = JSON.parse(this.responseText).html;
+    document.body.appendChild(menu);
 
     // очистка локалстора чтобы при случайной перезгрузке страницы выбранные плейлисты не сохранялись в памяти
-    localStorage.clear()
+    localStorage.clear();
 
     // прослушивание кликов по плейлистам. на клик - доабвление id плейлиста в локалстор
-    var playlistItems = document.getElementsByClassName('add-playlist-menu-item')
+    var playlistItems = document.getElementsByClassName('add-playlist-menu-item');
     // console.log(playlistItems)
     for (let item of playlistItems) {
       item.addEventListener('click', function(el) {
-        addPlaylistsToAddTo(el.target)
+        addPlaylistsToAddTo(el.target);
       })
     }
 
+    var bg = document.getElementById('background');
+    bg.addEventListener('click', function () {
+      closeMenu();
+    });
+
     //прослушивание сабмита формы. на сабмит - ajax запрос с id выбранных плейлистов
-    var submitBtn = document.getElementById('add-playlist-menu-submit-form')
+    var submitBtn = document.getElementById('add-playlist-menu-submit-form');
     submitBtn.addEventListener('submit', function(event) {
-      event.preventDefault()
-      sendPlaylistsToAddTo(id)
-      closeMenu()
-      return false
+      event.preventDefault();
+      sendPlaylistsToAddTo(id);
+      closeMenu();
+      return false;
     })
-  }
+  };
   xhttp.send()
 }
 
@@ -125,14 +130,13 @@ function showAddPlaylistMenu(id){
  */
 function addPlaylistsToAddTo(el){
 
-  var store = JSON.parse( localStorage.getItem('playlists-to-add'))
+  var store = JSON.parse( localStorage.getItem('playlists-to-add'));
   if(store == null) {
-    store = []
+    store = [];
   }
-  store.push(el.id)
-  localStorage.setItem('playlists-to-add', JSON.stringify(store))
-  console.log(localStorage.getItem('playlists-to-add'))
-
+  store.push(el.id);
+  localStorage.setItem('playlists-to-add', JSON.stringify(store));
+  console.log(localStorage.getItem('playlists-to-add'));
 }
 
 /**
@@ -142,84 +146,38 @@ function addPlaylistsToAddTo(el){
  * @param id
  */
 function sendPlaylistsToAddTo(id){
-  let store = localStorage.getItem('playlists-to-add')
+  let store = localStorage.getItem('playlists-to-add');
   let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/index.php?r=relsongsplaylists%2Faddarray&playlistIds=" + store +
-      "&songId=" + id, true)
+      "&songId=" + id, true);
   xhttp.onload = function() {
     // console.log(this.responseText);
-  }
+  };
   xhttp.send()
 }
 
 function closeMenu(){
-  localStorage.clear()
-  var menu = document.getElementById('add-playlist-menu')
-  menu.parentNode.removeChild(menu)
+  localStorage.clear();
+  var menu = document.getElementById('add-playlist-menu');
+  menu.parentNode.removeChild(menu);
 }
 
 /**
  * Ajax запрос на добавление песни в плейлист 
  * */
 function addItemClick (el) {
-  let song = el.parentNode.parentNode.parentNode
-  let cloneSong = song.cloneNode(true)
+  let song = el.parentNode.parentNode.parentNode;
+  let cloneSong = song.cloneNode(true);
 
   while (cloneSong.firstChild) {
     cloneSong.removeChild(cloneSong.firstChild);
   }
 
-  let xhttp = new XMLHttpRequest()
+  let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/index.php?r=relsongsplaylists%2Fadd&playlistId=" + el.getAttribute('data-playlistid') +
-    "&songId=" + cloneSong.getAttribute('data-songid'), true)
+    "&songId=" + cloneSong.getAttribute('data-songid'), true);
   xhttp.onload = function() {
     console.log(this.responseText);
-  }
-  xhttp.send()
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function parseSongPath(el){
-  result = el.getAttribute('data-audio')
-  resultArr = result.split("/")
-  pathArr = []
-  for(i = 0; i<resultArr.length-1; i++) {
-    pathArr.push(resultArr[i])
-  }
-  path = pathArr.join('/') + '/'
-  return path
-}
-
-function parseSongNameFromPath(el){
-  result = el.getAttribute('data-audio')
-  resultArr = result.split("/")
-  last = resultArr[resultArr.length-1]
-  sub = last.substr(0,last.length-4)
-  return sub
+  };
+  xhttp.send();
 }
