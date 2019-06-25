@@ -22,6 +22,8 @@ class PlayerInstance {
     this.playlistBtn = document.getElementById('playlistBtn')
     this.playlistMenu = document.getElementById('playlistMenu')
     this.volumeSlider = document.getElementById('myRange')
+    this.volumeSlider.value = 9
+    this.audio.volume = 0.009
     this.progress = document.getElementById('progressBar')
     this.scrubber = document.getElementById('scrubber')
     this.setListeners()
@@ -173,6 +175,15 @@ class PlayerInstance {
         e.target.parentNode.classList.add('btnHighlight')
       }
     })
+
+    /**
+     * Прослушивание ползунка громкости
+     */
+    _self.volumeSlider.oninput = function () {
+      // console.log(volumeSlider.value)
+      _self.audio.volume = _self.volumeSlider.value / 100
+      console.log(_self.audio.volume)
+    }
 
     /**
      * Прослушивание клика по кнопке repeatOneBtn
