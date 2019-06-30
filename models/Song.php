@@ -15,13 +15,18 @@ class Song extends \yii\db\ActiveRecord
 {
     public function display()
     {
-        echo '<div class="songContainer noselect" data-audio="'
-        . $this->path . $this->name
-        . '" data-songid="' 
-        . $this->id 
-        . '">'
-        . substr($this->name, 0, -4) 
-        . '</div>';
+//        echo '<div class="songContainer noselect" data-audio="'
+//        . $this->path . $this->name
+//        . '" data-songid="'
+//        . $this->id
+//        . '">'
+//        . substr($this->name, 0, -4)
+//        . '</div>';
+        $songname = substr($this->name, 0, -4);
+        echo "<div class='songContainer noselect' 
+            data-audio='$this->path$this->name' 
+            data-songid='$this->id'
+            data-songname='$songname'>$songname</div>";
     }
     
     /////////////////////////////////////////////////////////////////////

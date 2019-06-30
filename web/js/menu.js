@@ -2,12 +2,15 @@
 songContainers = document.getElementsByClassName('songContainer');
 for (var i = 0; i < songContainers.length; i++) {
   songContainers[i].addEventListener('mouseenter', function (e) {
-    showSongMenuBtn(e)
+    showSongMenuBtn(e);
   });
   songContainers[i].addEventListener('mouseleave', function (e) {
-    onMouseLeave(e)
+    hideSongMenuBtn(e);
   });
 }
+
+var onMouseLeaveTimer = false;
+var tempSongContainer;
 
 /**
  * Отображает кнпоку меню showWongMenuBtn при наведении на контейнер-песни.
@@ -22,56 +25,95 @@ for (var i = 0; i < songContainers.length; i++) {
  * @param {*} e 
  */
 function showSongMenuBtn (e) {
-  menu = document.getElementById('showSongMenuBtn');
+  if(onMouseLeaveTimer){
+    tempSongContainer = e;
+    return;
+  }
+  var menu = document.getElementById('showSongMenuBtn');
   menu.style.display = 'unset';
   if (e.target.contains(menu)) {
-    return
+    return;
   }
-  clone = menu.cloneNode(true);
+  else {
+    // смотрит если меню видимо - не переносит его на див на который указывает мышь
+    var songMenu = document.getElementById('songMenu');
+    if (songMenu.style.display == 'unset') {
+      return;
+    }
+  }
+  var clone = menu.cloneNode(true);
   menu.parentNode.removeChild(menu);
   e.target.prepend(clone);
   clone.addEventListener('click', function () {
-    showSongMenuBtnClickListener();
+    toggleSongMenu();
+  });
+  document.getElementById('songMenu').addEventListener('mouseenter', function(){
+    onMouseLeaveTimer = false;
+  });
+  document.getElementById('songMenu').addEventListener('mouseleave', function(){
+    onMouseLeaveMenu(e)
   });
   addItemClickListeners();
 }
+
+function hideSongMenuBtn() {
+  if (onMouseLeaveTimer) {
+    return;
+  }
+  var btn = document.getElementById('showSongMenuBtn');
+  var menu = document.getElementById('songMenu');
+  btn.style.display = 'none';
+  menu.style.display = 'none';
+}
+
+/**
+ * Срабатывает когда мышь покидает songMenu.
+ * Переводит onMouseLeaveTimer в 1 и ждет секунду. Если он остался 1 то меню исчезает.
+ * Он может перейти обратно в false если снова навестись на songMenu.
+ *
+ *
+ * @param e
+ * @returns {Promise<void>}
+ */
+async function onMouseLeaveMenu(e){
+  onMouseLeaveTimer = true;
+  setTimeout(function(){
+    if (onMouseLeaveTimer) {
+      var songMenu = document.getElementById('songMenu');
+      songMenu.style.display = 'none';
+      onMouseLeaveTimer = false;
+      showSongMenuBtn(tempSongContainer);
+    }
+  },500)
+}
+
 
 /**
  * Обработка клика по кнопке меню.
  * 
  * Отображает меню если оно не отображено и наоборот.
  */
-function showSongMenuBtnClickListener () {
-  dropdownChild = document.getElementById('songMenu');
-  if (dropdownChild.style.display == 'unset') {
+function toggleSongMenu () {
+  var dropdownChild = document.getElementById('songMenu');
+  if (dropdownChild.style.display != 'none') {
     dropdownChild.style.display = 'none';
-    return;
+  } else {
+    dropdownChild.style.display = 'unset';
   }
-  dropdownChild.style.display = 'unset';
-}
-
-/**
- * Отключить видимость меню когда мышь покидает
- * пределы контейнера-песни либо его внутренних блоков
- *
- * @param {*} event
- */
-function onMouseLeave (event) {
-  dropdownChild = document.getElementById('songMenu');
-  dropdownChild.style.display = 'none'
 }
 
 /**
  * Прослушивание кликов по элементам меню
  */
 function addItemClickListeners () {
-  menuitems = document.getElementsByClassName('songMenu-item');
+  var menuitems = document.getElementsByClassName('songMenu-item');
 
   for (let index = 0; index < menuitems.length-1; index++) {
     menuitems[index].addEventListener('click', function (e) {
       addItemClick(e.target);
     })
   }
+  // Клик по кнопке "Другой плейлист" которая находится в нижней части меню
   menuitems[menuitems.length-1].addEventListener('click', function(e) {
     let songContainer = e.target.parentNode.parentNode.parentNode;
     let id = songContainer.getAttribute('data-songid');
@@ -101,7 +143,6 @@ function showAddPlaylistMenu(id){
 
     // прослушивание кликов по плейлистам. на клик - доабвление id плейлиста в локалстор
     var playlistItems = document.getElementsByClassName('add-playlist-menu-item');
-    // console.log(playlistItems)
     for (let item of playlistItems) {
       item.addEventListener('click', function(el) {
         addPlaylistsToAddTo(el.target);
@@ -151,7 +192,6 @@ function sendPlaylistsToAddTo(id){
   xhttp.open("GET", "/index.php?r=relsongsplaylists%2Faddarray&playlistIds=" + store +
       "&songId=" + id, true);
   xhttp.onload = function() {
-    // console.log(this.responseText);
   };
   xhttp.send()
 }
