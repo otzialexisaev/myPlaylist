@@ -33,8 +33,7 @@ function showSongMenuBtn (e) {
   menu.style.display = 'unset';
   if (e.target.contains(menu)) {
     return;
-  }
-  else {
+  } else {
     // смотрит если меню видимо - не переносит его на див на который указывает мышь
     var songMenu = document.getElementById('songMenu');
     if (songMenu.style.display == 'unset') {
@@ -129,7 +128,7 @@ function addItemClickListeners () {
  */
 function showAddPlaylistMenu(id){
   var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/index.php?r=playlist%2Fshowaddplaylistmenu", true);
+  xhttp.open("GET", "/index.php?r=playlist%2Fshowmultipleplaylistsform", true);
   xhttp.onload = function() {
     //создание контэйнера для меню и добавление его к body
     var menu = document.createElement("div");
@@ -149,6 +148,14 @@ function showAddPlaylistMenu(id){
       })
     }
 
+    // прослушивание кликов по кругам рядом с названиями плейлистов
+    var circles = document.getElementsByClassName('add-playlist-menu-item-circle');
+    for (var i = 0; i < circles.length; i++) {
+      circles[i].addEventListener('click', function(el) {
+        toggleCircle(el.target);
+      });
+    }
+
     var bg = document.getElementById('background');
     bg.addEventListener('click', function () {
       closeMenu();
@@ -164,42 +171,6 @@ function showAddPlaylistMenu(id){
     })
   };
   xhttp.send()
-}
-
-/**
- * Добавляет выбранные в меню плйэлисты в локалстор лмбо удаляет из него
- */
-function addPlaylistsToAddTo(el){
-
-  var store = JSON.parse( localStorage.getItem('playlists-to-add'));
-  if(store == null) {
-    store = [];
-  }
-  store.push(el.id);
-  localStorage.setItem('playlists-to-add', JSON.stringify(store));
-  console.log(localStorage.getItem('playlists-to-add'));
-}
-
-/**
- * Передает отмеченные в меню плейлисты в контроллер для сохранения.
- * Архив передается строкой и парсится в контроллере.
- *
- * @param id
- */
-function sendPlaylistsToAddTo(id){
-  let store = localStorage.getItem('playlists-to-add');
-  let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/index.php?r=relsongsplaylists%2Faddarray&playlistIds=" + store +
-      "&songId=" + id, true);
-  xhttp.onload = function() {
-  };
-  xhttp.send()
-}
-
-function closeMenu(){
-  localStorage.clear();
-  var menu = document.getElementById('add-playlist-menu');
-  menu.parentNode.removeChild(menu);
 }
 
 /**

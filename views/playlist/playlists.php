@@ -19,3 +19,4 @@ Playlist::addMenu();
 ?>
 
 <script src="js/menu.js"></script>
+<script src="js/playlists.js"></script>

@@ -6,11 +6,12 @@
     width: 500px;
     height: auto;
     max-height: 80%;
-    background-color: lightblue;
+    background-color: #5d7ada;;
     position: absolute;
     z-index: 99999;
     padding: 50px 20px 20px 20px;
     overflow-y: auto;
+    border-radius: 4px;
 }
 
 #background {
@@ -36,11 +37,31 @@
     display: table-cell;
     vertical-align: middle;
     transition-duration: 0.4s;
+    padding-left: 15px;
+    border: 1px solid lightgrey;
+}
+
+.add-playlist-menu-item-select{
+    height: 50px;
+    display: table-cell;
+    vertical-align: middle;
+    transition-duration: 0.4s;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    width: 50px;
 }
 
 .add-playlist-menu-item:hover{
     background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
     color: white;
+}
+
+.add-playlist-menu-item-circle {
+    background: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    border: 3px solid black;
 }
 
 .add-playlist-menu-item .selected{

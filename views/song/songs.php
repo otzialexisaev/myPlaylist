@@ -22,6 +22,7 @@ Playlist::addMenu();
 <script src="js/jquery.js"></script>
 <script src="js/newautoplay.js"></script>
 <script src="js/menu.js"></script>
+<script src="js/addPlaylistMenu.js"></script>
 
 <?php /*Занесение в базу данных
 use app\models\Songs;
